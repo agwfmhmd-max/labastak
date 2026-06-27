@@ -189,6 +189,7 @@
                 <div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/5"></div>
             </div>
 
+
             <!-- Search Bar -->
             <div class="relative max-w-2xl mx-auto mb-6 search-wrap">
                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none"><i class="fa-solid fa-magnifying-glass text-indigo-400"></i></div>
@@ -301,35 +302,27 @@
                         </div>
                     </div>
 
-                    <!-- Bank Numbers Settings -->
+                    <!-- Bank Numbers Settings (Dynamic) -->
                     <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-6 shadow-sm">
                         <div class="flex items-center gap-3 mb-5">
                             <div class="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center shadow-md">
                                 <i class="fa-solid fa-building-columns text-white text-lg"></i>
                             </div>
                             <div>
-                                <h3 class="font-black text-gray-800">أرقام الحسابات البنكية</h3>
-                                <p class="text-xs text-gray-500">أرقام التحويل لكل تطبيق بنكي</p>
+                                <h3 class="font-black text-gray-800">الحسابات البنكية</h3>
+                                <p class="text-xs text-gray-500">أضف أو احذف البنوك، ولكل بنك رقم مخصص له</p>
                             </div>
                         </div>
                         <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">
-                                    <i class="fa-solid fa-mobile-screen-button text-indigo-500 ml-1"></i>
-                                    الرقم الافتراضي (بنكيلي، السداد، مصرفي، غزة باي، وغيرها)
-                                </label>
-                                <input type="tel" id="settingsBankDefault" class="settings-input w-full px-4 py-3 rounded-xl bg-white font-bold text-gray-800" dir="ltr" placeholder="20479962">
+                            <div id="banksList" class="space-y-3"></div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button type="button" onclick="addBankRow()" class="bg-indigo-100 text-indigo-700 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 border border-indigo-200 hover:bg-indigo-200 transition">
+                                    <i class="fa-solid fa-plus"></i> إضافة بنك
+                                </button>
+                                <button type="button" onclick="saveBanksSettings()" class="btn-primary py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md">
+                                    <i class="fa-solid fa-floppy-disk"></i> حفظ البنوك
+                                </button>
                             </div>
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">
-                                    <i class="fa-solid fa-mobile-screen-button text-purple-500 ml-1"></i>
-                                    رقم موف ماني و BCI Pay
-                                </label>
-                                <input type="tel" id="settingsBankMoov" class="settings-input w-full px-4 py-3 rounded-xl bg-white font-bold text-gray-800" dir="ltr" placeholder="46154399">
-                            </div>
-                            <button onclick="saveBankSettings()" class="btn-primary w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md">
-                                <i class="fa-solid fa-floppy-disk"></i> حفظ أرقام البنوك
-                            </button>
                         </div>
                     </div>
 
@@ -378,6 +371,14 @@
                                     وصف الموقع (يُرسل للعميل عبر واتساب)
                                 </label>
                                 <input type="text" id="settingsLocationLabel" class="settings-input w-full px-4 py-3 rounded-xl bg-white font-bold text-gray-800" placeholder="مثال: نواكشوط - حي كبة - شارع المستشفى - بجانب صيدلية الشفاء">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">
+                                    <i class="fa-brands fa-google text-orange-500 ml-1"></i>
+                                    رابط الموقع على Google Maps (اختياري — يُرسل للعميل عبر واتساب إن وُجد)
+                                </label>
+                                <input type="url" id="settingsMapUrl" class="settings-input w-full px-4 py-3 rounded-xl bg-white font-bold text-gray-800" dir="ltr" placeholder="https://maps.app.goo.gl/...">
+                                <p class="text-xs text-gray-500 mt-1">يمكنك لصق الرابط من تطبيق خرائط Google مباشرةً (Share → Copy link).</p>
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <button onclick="useMyLocation()" class="bg-orange-100 text-orange-700 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 border border-orange-200 hover:bg-orange-200 transition">
@@ -449,10 +450,44 @@
         </div>
     </div>
 
-    <!-- Fav, Cart, Payment Modals -->
+    <!-- Footer -->
+    <footer id="siteFooter" class="bg-gradient-to-br from-gray-900 via-indigo-950 to-gray-900 text-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
+                            <i class="fa-solid fa-store text-white"></i>
+                        </div>
+                        <h3 id="footerStoreName" class="text-xl font-black text-white">المتجر</h3>
+                    </div>
+                    <p class="text-sm text-gray-400 leading-relaxed">متجرك الإلكتروني المفضل — جودة وثقة وخدمة سريعة.</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-black text-white mb-3 flex items-center gap-2"><i class="fa-brands fa-whatsapp text-green-400"></i> تواصل معنا</h4>
+                    <a id="footerWhatsappLink" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 text-green-300 px-4 py-2.5 rounded-xl font-bold transition-all" dir="ltr">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span id="footerWhatsappNumber">+222 ...</span>
+                    </a>
+                </div>
+                <div>
+                    <h4 class="text-sm font-black text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-location-dot text-indigo-400"></i> موقع المحل</h4>
+                    <a id="footerLocationLink" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 text-indigo-200 px-4 py-2.5 rounded-xl font-bold transition-all">
+                        <i class="fa-solid fa-map-location-dot text-lg"></i>
+                        <span id="footerLocationLabel">لم يحدد بعد</span>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-white/10 mt-8 pt-5 text-center text-xs text-gray-400">
+                © <span id="footerYear"></span> <span class="footerStoreNameInline">المتجر</span>. جميع الحقوق محفوظة.
+            </div>
+        </div>
+    </footer>
+
+
     <div id="favModal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 hidden flex justify-start"><div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col transform modal-slide"><div class="p-5 bg-white border-b flex justify-between items-center z-10 shadow-sm"><h2 class="text-xl font-black text-gray-800 flex items-center gap-2"><i class="fa-solid fa-heart text-red-500"></i> المفضلة</h2><button onclick="toggleFavorites()" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full bg-gray-100"><i class="fa-solid fa-xmark"></i></button></div><div id="favItems" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50/50"></div></div></div>
     <div id="cartModal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 hidden flex justify-end"><div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col transform modal-slide"><div class="p-5 bg-white border-b flex justify-between items-center z-10 shadow-sm"><h2 class="text-xl font-black text-gray-800 flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-indigo-600"></i> السلة</h2><button onclick="toggleCart()" class="text-gray-500 hover:text-gray-800 w-8 h-8 rounded-full bg-gray-100"><i class="fa-solid fa-xmark"></i></button></div><div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50/50"></div><div class="p-5 border-t bg-white"><div class="flex justify-between items-center mb-5 text-lg font-bold bg-indigo-50 p-4 rounded-xl text-indigo-900 border border-indigo-100"><span>الإجمالي:</span><span id="cartTotal" class="text-2xl font-black text-indigo-700">0 MRU</span></div><div class="space-y-3"><button onclick="checkoutWhatsApp()" class="w-full bg-green-500 text-white font-bold py-3.5 rounded-xl shadow-sm flex justify-center items-center gap-2"><i class="fa-brands fa-whatsapp text-xl"></i> دفع عبر واتساب</button><button onclick="openDirectPayment()" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-sm flex justify-center items-center gap-2"><i class="fa-solid fa-building-columns"></i> الدفع المباشر</button></div></div></div></div>
-    <div id="paymentModal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm z-[60] hidden flex justify-center items-end md:items-center p-0 md:p-4"><div class="bg-white rounded-t-3xl md:rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto relative flex flex-col"><div class="sticky top-0 bg-white z-20 px-5 py-4 border-b flex justify-between items-center shadow-sm"><h3 class="font-black text-gray-800 text-lg">تأكيد الدفع</h3><button onclick="closeDirectPayment()" class="bg-gray-100 w-8 h-8 rounded-full"><i class="fa-solid fa-xmark"></i></button></div><div class="p-6 space-y-5"><div><label class="block font-bold mb-1.5 text-sm">الاسم الكامل:</label><input type="text" id="customerName" class="w-full p-3 border rounded-xl bg-gray-50 outline-none"></div><div><label class="block font-bold mb-1.5 text-sm">رقم الواتساب:</label><input type="tel" id="customerPhone" class="w-full p-3 border rounded-xl bg-gray-50 text-left outline-none" dir="ltr" placeholder="41234567"></div><div><label class="block font-bold mb-1.5 text-sm">رقم الهاتف الذي أرسلت منه المبلغ:</label><input type="tel" id="customerSenderPhone" class="w-full p-3 border rounded-xl bg-gray-50 text-left outline-none" dir="ltr" placeholder="رقم الهاتف المُرسِل"></div><div><label class="block font-bold mb-1.5 text-sm">التطبيق البنكي:</label><select id="bankSelect" onchange="showBankDetails()" class="w-full p-3 border rounded-xl bg-indigo-50 text-indigo-800 font-bold outline-none"><option value="" disabled selected>-- اختر --</option><option value="بنكيلي">بنكيلي</option><option value="السداد">السداد</option><option value="مصرفي">مصرفي</option><option value="غزة باي">غزة باي</option><option value="موريبوصت">موريبوصت</option><option value="أمانتي">أمانتي</option><option value="رصيدي">رصيدي</option><option value="بيم بانك">بيم بانك</option><option value="كليك">كليك</option><option value="Moov money">موف ماني</option><option value="BCI pay">بي سي آي باي</option></select></div><div id="bankDetails" class="hidden bg-blue-50/50 p-5 rounded-xl border border-blue-100 text-center shadow-inner"><p class="text-sm text-gray-600">المبلغ المطلوب:</p><p id="payAmount" class="text-indigo-600 font-black text-2xl my-1"></p><p class="mt-4 text-sm">إلى الرقم التالي:</p><p id="bankPhoneNumber" class="text-4xl font-black text-blue-700 my-2 tracking-widest bg-white py-2 rounded-lg border"></p></div><div id="receiptUploadSection" class="hidden bg-gray-50 p-4 rounded-xl border border-gray-200"><label class="block font-bold mb-2 text-sm">صورة الحوالة:</label><input type="file" id="receiptFile" accept="image/*" class="w-full p-2 border border-dashed rounded-lg bg-white text-sm"><button onclick="submitOrder()" id="confirmOrderBtn" class="w-full mt-5 bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-md flex items-center justify-center gap-2"><i class="fa-solid fa-check-circle"></i> تأكيد وإرسال</button></div></div></div></div>
+    <div id="paymentModal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm z-[60] hidden flex justify-center items-end md:items-center p-0 md:p-4"><div class="bg-white rounded-t-3xl md:rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto relative flex flex-col"><div class="sticky top-0 bg-white z-20 px-5 py-4 border-b flex justify-between items-center shadow-sm"><h3 class="font-black text-gray-800 text-lg">تأكيد الدفع</h3><button onclick="closeDirectPayment()" class="bg-gray-100 w-8 h-8 rounded-full"><i class="fa-solid fa-xmark"></i></button></div><div class="p-6 space-y-5"><div><label class="block font-bold mb-1.5 text-sm">الاسم الكامل:</label><input type="text" id="customerName" class="w-full p-3 border rounded-xl bg-gray-50 outline-none"></div><div><label class="block font-bold mb-1.5 text-sm">رقم الواتساب:</label><input type="tel" id="customerPhone" class="w-full p-3 border rounded-xl bg-gray-50 text-left outline-none" dir="ltr" placeholder="41234567"></div><div><label class="block font-bold mb-1.5 text-sm">رقم الهاتف الذي أرسلت منه المبلغ:</label><input type="tel" id="customerSenderPhone" class="w-full p-3 border rounded-xl bg-gray-50 text-left outline-none" dir="ltr" placeholder="رقم الهاتف المُرسِل"></div><div><label class="block font-bold mb-1.5 text-sm">التطبيق البنكي:</label><select id="bankSelect" onchange="showBankDetails()" class="w-full p-3 border rounded-xl bg-indigo-50 text-indigo-800 font-bold outline-none"><option value="" disabled selected>-- اختر --</option></select></div><div id="bankDetails" class="hidden bg-blue-50/50 p-5 rounded-xl border border-blue-100 text-center shadow-inner"><p class="text-sm text-gray-600">المبلغ المطلوب:</p><p id="payAmount" class="text-indigo-600 font-black text-2xl my-1"></p><p class="mt-4 text-sm">إلى الرقم التالي:</p><p id="bankPhoneNumber" class="text-4xl font-black text-blue-700 my-2 tracking-widest bg-white py-2 rounded-lg border"></p></div><div id="receiptUploadSection" class="hidden bg-gray-50 p-4 rounded-xl border border-gray-200"><label class="block font-bold mb-2 text-sm">صورة الحوالة:</label><input type="file" id="receiptFile" accept="image/*" class="w-full p-2 border border-dashed rounded-lg bg-white text-sm"><button onclick="submitOrder()" id="confirmOrderBtn" class="w-full mt-5 bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-md flex items-center justify-center gap-2"><i class="fa-solid fa-check-circle"></i> تأكيد وإرسال</button></div></div></div></div>
 
     <!-- ========================================== -->
     <!-- منطقة إعدادات المتجر (قم بتغييرها لكل عميل) -->
@@ -464,11 +499,29 @@
             whatsappNumber: "22220479962", // رقم واتساب لاستقبال الطلبات (بدون +)
             adminPassword: "I21567@MDA@SHOP", // كلمة مرور الإدارة الخاصة بهذا العميل
             
-            // 2. أرقام الحسابات البنكية الخاصة بالعميل
+            // 2. أرقام الحسابات البنكية الخاصة بالعميل (للتوافق الخلفي فقط)
             bankNumbers: {
-                default: "20479962", // رقم (بنكيلي، السداد، مصرفي، إلخ)
-                moov_bci: "46154399" // رقم (موف ماني، BCI pay)
+                default: "20479962",
+                moov_bci: "46154399"
             },
+            // قائمة البنوك الديناميكية (يديرها المشرف من لوحة الإعدادات)
+            banks: [
+                { name: "بنكيلي", number: "20479962" },
+                { name: "السداد", number: "20479962" },
+                { name: "مصرفي", number: "20479962" },
+                { name: "غزة باي", number: "20479962" },
+                { name: "موريبوصت", number: "20479962" },
+                { name: "أمانتي", number: "20479962" },
+                { name: "رصيدي", number: "20479962" },
+                { name: "بيم بانك", number: "20479962" },
+                { name: "كليك", number: "20479962" },
+                { name: "Moov money", number: "46154399" },
+                { name: "BCI pay", number: "46154399" }
+            ],
+            mapUrl: "",
+            locationLat: null,
+            locationLng: null,
+            locationLabel: "",
 
             // 3. ربط قاعدة البيانات (Supabase) الخاصة بهذا العميل
             supabaseUrl: 'https://pgdztepciypyqwwdludv.supabase.co',
@@ -647,7 +700,10 @@
         window.showBankDetails = function() {
             const val = document.getElementById('bankSelect').value;
             if (val) {
-                document.getElementById('bankPhoneNumber').innerText = (val === 'Moov money' || val === 'BCI pay') ? STORE_CONFIG.bankNumbers.moov_bci : STORE_CONFIG.bankNumbers.default;
+                const found = (STORE_CONFIG.banks || []).find(b => b.name === val);
+                const number = found ? found.number
+                    : ((val === 'Moov money' || val === 'BCI pay') ? STORE_CONFIG.bankNumbers.moov_bci : STORE_CONFIG.bankNumbers.default);
+                document.getElementById('bankPhoneNumber').innerText = number || '';
                 document.getElementById('payAmount').innerText = `${getCartTotal()} MRU`;
                 document.getElementById('bankDetails').classList.remove('hidden');
                 document.getElementById('receiptUploadSection').classList.remove('hidden');
@@ -784,11 +840,12 @@
 
 
         // ============ إعدادات المتجر من قاعدة البيانات (تُحفظ لكل المستخدمين) ============
-        // ملاحظة: أنشئ في Supabase جدول باسم store_settings بصف واحد id=1 والأعمدة:
-        // whatsapp_number(text), bank_default(text), bank_moov_bci(text), store_name(text),
-        // location_lat(float8), location_lng(float8), location_label(text)
-        // وأنشئ سياسات RLS تسمح بالقراءة للجميع، والكتابة للمشرف الموثّق فقط.
-        // وأضف عمود sender_phone(text) إلى جدول orders.
+        // ملاحظة: جدول store_settings بصف واحد id=1 والأعمدة:
+        // whatsapp_number(text), bank_default(text), bank_moov_bci(text), banks(jsonb),
+        // store_name(text), location_lat(float8), location_lng(float8),
+        // location_label(text), map_url(text)
+        // RLS: قراءة للجميع، كتابة للمشرف الموثّق فقط.
+        // أضف عمود sender_phone(text) إلى جدول orders.
 
         async function loadStoreSettings() {
             try {
@@ -798,6 +855,12 @@
                 if (data.whatsapp_number) STORE_CONFIG.whatsappNumber = data.whatsapp_number;
                 if (data.bank_default) STORE_CONFIG.bankNumbers.default = data.bank_default;
                 if (data.bank_moov_bci) STORE_CONFIG.bankNumbers.moov_bci = data.bank_moov_bci;
+                // قائمة البنوك الديناميكية
+                if (Array.isArray(data.banks) && data.banks.length) {
+                    STORE_CONFIG.banks = data.banks.filter(b => b && b.name && b.number);
+                } else if (typeof data.banks === 'string' && data.banks.trim().startsWith('[')) {
+                    try { const arr = JSON.parse(data.banks); if (Array.isArray(arr) && arr.length) STORE_CONFIG.banks = arr; } catch(_) {}
+                }
                 if (data.store_name) {
                     STORE_CONFIG.storeName = data.store_name;
                     document.getElementById('pageTitle').innerText = data.store_name;
@@ -807,18 +870,124 @@
                 STORE_CONFIG.locationLat = data.location_lat || null;
                 STORE_CONFIG.locationLng = data.location_lng || null;
                 STORE_CONFIG.locationLabel = data.location_label || '';
+                STORE_CONFIG.mapUrl = data.map_url || '';
+                refreshContactUI();
+                refreshBankSelect();
             } catch(e) { console.warn(e); }
+        }
+
+        function refreshContactUI() {
+            try {
+                const wa = (STORE_CONFIG.whatsappNumber || '').replace(/[^0-9]/g,'');
+                const waDisplay = wa ? ('+' + wa) : '';
+                const lat = STORE_CONFIG.locationLat, lng = STORE_CONFIG.locationLng;
+                const label = STORE_CONFIG.locationLabel || '';
+                const mapUrl = (STORE_CONFIG.mapUrl && STORE_CONFIG.mapUrl.trim()) ? STORE_CONFIG.mapUrl.trim() : ((lat && lng) ? `https://www.google.com/maps?q=${lat},${lng}` : '');
+                const storeName = STORE_CONFIG.storeName || 'المتجر';
+
+                // Hero contact bar
+                const waCard = document.getElementById('contactWhatsappCard');
+                const waNum = document.getElementById('contactWhatsappNumber');
+                if (waCard && wa) { waCard.href = `https://wa.me/${wa}`; waNum.textContent = waDisplay; }
+                const locCard = document.getElementById('contactLocationCard');
+                const locLbl = document.getElementById('contactLocationLabel');
+                if (locCard) {
+                    if (mapUrl) { locCard.href = mapUrl; }
+                    locLbl.textContent = label || (mapUrl ? 'عرض الموقع على الخريطة' : 'لم يحدد بعد');
+                }
+
+                // Footer
+                const fStore = document.getElementById('footerStoreName');
+                if (fStore) fStore.textContent = storeName;
+                document.querySelectorAll('.footerStoreNameInline').forEach(el => el.textContent = storeName);
+                const fWaLink = document.getElementById('footerWhatsappLink');
+                const fWaNum = document.getElementById('footerWhatsappNumber');
+                if (fWaLink && wa) { fWaLink.href = `https://wa.me/${wa}`; fWaNum.textContent = waDisplay; }
+                const fLocLink = document.getElementById('footerLocationLink');
+                const fLocLbl = document.getElementById('footerLocationLabel');
+                if (fLocLink) {
+                    if (mapUrl) fLocLink.href = mapUrl;
+                    fLocLbl.textContent = label || (mapUrl ? 'عرض على الخريطة' : 'لم يحدد بعد');
+                }
+                const yr = document.getElementById('footerYear');
+                if (yr) yr.textContent = new Date().getFullYear();
+            } catch(e) { console.warn('refreshContactUI', e); }
         }
 
         function populateSettingsForm() {
             document.getElementById('settingsWhatsapp').value = STORE_CONFIG.whatsappNumber || '';
-            document.getElementById('settingsBankDefault').value = STORE_CONFIG.bankNumbers.default || '';
-            document.getElementById('settingsBankMoov').value = STORE_CONFIG.bankNumbers.moov_bci || '';
             document.getElementById('settingsStoreName').value = STORE_CONFIG.storeName || '';
             document.getElementById('settingsLat').value = STORE_CONFIG.locationLat || '';
             document.getElementById('settingsLng').value = STORE_CONFIG.locationLng || '';
             document.getElementById('settingsLocationLabel').value = STORE_CONFIG.locationLabel || '';
+            const mu = document.getElementById('settingsMapUrl'); if (mu) mu.value = STORE_CONFIG.mapUrl || '';
+            renderBanksList();
             updateMapPreview();
+        }
+
+        // ===== إدارة البنوك الديناميكية =====
+        function renderBanksList() {
+            const wrap = document.getElementById('banksList');
+            if (!wrap) return;
+            wrap.innerHTML = '';
+            (STORE_CONFIG.banks || []).forEach((b, idx) => wrap.appendChild(buildBankRow(b.name || '', b.number || '', idx)));
+            if (!wrap.children.length) wrap.appendChild(buildBankRow('', '', 0));
+        }
+        function buildBankRow(name, number, idx) {
+            const row = document.createElement('div');
+            row.className = 'flex flex-col sm:flex-row gap-2 items-stretch bg-white rounded-xl border border-indigo-100 p-3';
+            row.innerHTML = `
+                <input type="text" class="bank-name-input flex-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 font-bold text-gray-800" placeholder="اسم البنك (مثال: بنكيلي)" value="${(name+'').replace(/"/g,'&quot;')}">
+                <input type="tel" class="bank-number-input flex-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 font-bold text-gray-800" dir="ltr" placeholder="رقم الحساب" value="${(number+'').replace(/"/g,'&quot;')}">
+                <button type="button" class="bg-red-100 text-red-600 px-3 py-2 rounded-lg font-bold text-sm hover:bg-red-200 transition flex items-center justify-center gap-1" title="حذف">
+                    <i class="fa-solid fa-trash"></i>
+                </button>`;
+            row.querySelector('button').addEventListener('click', () => row.remove());
+            return row;
+        }
+        window.addBankRow = function() {
+            const wrap = document.getElementById('banksList');
+            if (!wrap) return;
+            wrap.appendChild(buildBankRow('', '', wrap.children.length));
+        }
+        function collectBanksFromUI() {
+            const rows = document.querySelectorAll('#banksList > div');
+            const out = [];
+            const seen = new Set();
+            rows.forEach(r => {
+                const name = (r.querySelector('.bank-name-input')?.value || '').trim();
+                const number = (r.querySelector('.bank-number-input')?.value || '').trim();
+                if (!name || !number) return;
+                const key = name.toLowerCase();
+                if (seen.has(key)) return;
+                seen.add(key);
+                out.push({ name, number });
+            });
+            return out;
+        }
+        window.saveBanksSettings = async function() {
+            const banks = collectBanksFromUI();
+            if (!banks.length) return Swal.fire('تنبيه', 'أضف بنكًا واحدًا على الأقل (اسم + رقم)', 'warning');
+            try {
+                await upsertSettings({ banks });
+                STORE_CONFIG.banks = banks;
+                refreshBankSelect();
+                Swal.fire({toast:true, position:'top', icon:'success', title:'تم حفظ قائمة البنوك', showConfirmButton:false, timer:1500});
+            } catch(e){ Swal.fire('خطأ', e.message, 'error'); }
+        }
+
+        // تحديث قائمة البنوك في نافذة الدفع
+        function refreshBankSelect() {
+            const sel = document.getElementById('bankSelect');
+            if (!sel) return;
+            const current = sel.value;
+            sel.innerHTML = '<option value="" disabled selected>-- اختر --</option>';
+            (STORE_CONFIG.banks || []).forEach(b => {
+                const opt = document.createElement('option');
+                opt.value = b.name; opt.textContent = b.name;
+                sel.appendChild(opt);
+            });
+            if (current && (STORE_CONFIG.banks || []).some(b => b.name === current)) sel.value = current;
         }
 
         function updateMapPreview() {
@@ -840,25 +1009,17 @@
         window.saveWhatsappSetting = async function() {
             const val = document.getElementById('settingsWhatsapp').value.trim();
             if (!val) return Swal.fire('تنبيه', 'يرجى إدخال رقم الواتساب', 'warning');
-            try { await upsertSettings({ whatsapp_number: val }); STORE_CONFIG.whatsappNumber = val;
+            try { await upsertSettings({ whatsapp_number: val }); STORE_CONFIG.whatsappNumber = val; refreshContactUI();
                 Swal.fire({toast:true, position:'top', icon:'success', title:'تم حفظ رقم الواتساب', showConfirmButton:false, timer:1500});
             } catch(e){ Swal.fire('خطأ', e.message, 'error'); }
         }
 
-        window.saveBankSettings = async function() {
-            const d = document.getElementById('settingsBankDefault').value.trim();
-            const m = document.getElementById('settingsBankMoov').value.trim();
-            if (!d || !m) return Swal.fire('تنبيه', 'يرجى تعبئة الحقلين', 'warning');
-            try { await upsertSettings({ bank_default: d, bank_moov_bci: m });
-                STORE_CONFIG.bankNumbers.default = d; STORE_CONFIG.bankNumbers.moov_bci = m;
-                Swal.fire({toast:true, position:'top', icon:'success', title:'تم حفظ أرقام البنوك', showConfirmButton:false, timer:1500});
-            } catch(e){ Swal.fire('خطأ', e.message, 'error'); }
-        }
+
 
         window.saveStoreNameSetting = async function() {
             const v = document.getElementById('settingsStoreName').value.trim();
             if (!v) return Swal.fire('تنبيه', 'يرجى إدخال اسم المتجر', 'warning');
-            try { await upsertSettings({ store_name: v }); STORE_CONFIG.storeName = v;
+            try { await upsertSettings({ store_name: v }); STORE_CONFIG.storeName = v; refreshContactUI();
                 document.getElementById('pageTitle').innerText = v;
                 document.getElementById('navStoreName').innerText = v;
                 document.getElementById('bannerStoreName').innerText = v;
@@ -867,12 +1028,18 @@
         }
 
         window.saveLocationSettings = async function() {
-            const lat = parseFloat(document.getElementById('settingsLat').value);
-            const lng = parseFloat(document.getElementById('settingsLng').value);
+            const latRaw = document.getElementById('settingsLat').value;
+            const lngRaw = document.getElementById('settingsLng').value;
+            const lat = parseFloat(latRaw);
+            const lng = parseFloat(lngRaw);
             const label = document.getElementById('settingsLocationLabel').value.trim();
-            if (isNaN(lat) || isNaN(lng)) return Swal.fire('تنبيه', 'يرجى تحديد الموقع على الخريطة أولًا', 'warning');
-            try { await upsertSettings({ location_lat: lat, location_lng: lng, location_label: label });
-                STORE_CONFIG.locationLat = lat; STORE_CONFIG.locationLng = lng; STORE_CONFIG.locationLabel = label;
+            const mapUrl = (document.getElementById('settingsMapUrl')?.value || '').trim();
+            if ((isNaN(lat) || isNaN(lng)) && !mapUrl) return Swal.fire('تنبيه', 'يرجى تحديد الموقع على الخريطة أو إدخال رابط Google Maps', 'warning');
+            const patch = { location_label: label, map_url: mapUrl };
+            if (!isNaN(lat) && !isNaN(lng)) { patch.location_lat = lat; patch.location_lng = lng; }
+            try { await upsertSettings(patch);
+                if (!isNaN(lat) && !isNaN(lng)) { STORE_CONFIG.locationLat = lat; STORE_CONFIG.locationLng = lng; }
+                STORE_CONFIG.locationLabel = label; STORE_CONFIG.mapUrl = mapUrl; refreshContactUI();
                 Swal.fire({toast:true, position:'top', icon:'success', title:'تم حفظ الموقع', showConfirmButton:false, timer:1500});
             } catch(e){ Swal.fire('خطأ', e.message, 'error'); }
         }
@@ -959,7 +1126,9 @@
                 if (orderRow && orderRow.customer_phone) {
                     const itemsTxt = (orderRow.items || items).map(i => `▪ ${i.name} (العدد: ${i.qty})`).join('\n');
                     const lat = STORE_CONFIG.locationLat, lng = STORE_CONFIG.locationLng;
-                    const mapsLink = (lat && lng) ? `https://maps.google.com/?q=${lat},${lng}` : '';
+                    const mapsLink = (STORE_CONFIG.mapUrl && STORE_CONFIG.mapUrl.trim())
+                        ? STORE_CONFIG.mapUrl.trim()
+                        : ((lat && lng) ? `https://maps.google.com/?q=${lat},${lng}` : '');
                     const locLabel = STORE_CONFIG.locationLabel || '';
                     let msg = `🌟 *${STORE_CONFIG.storeName}* 🌟\n\n`;
                     msg += `مرحبًا *${orderRow.customer_name}* 👋\n\n`;
