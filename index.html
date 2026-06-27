@@ -481,6 +481,20 @@
             <div class="border-t border-white/10 mt-8 pt-5 text-center text-xs text-gray-400">
                 © <span id="footerYear"></span> <span class="footerStoreNameInline">المتجر</span>. جميع الحقوق محفوظة.
             </div>
+            <div class="mt-5 flex justify-center">
+                <a href="https://wa.me/22220479962" target="_blank" rel="noopener"
+                   class="mda-credit group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-extrabold text-sm tracking-wide text-white bg-gradient-to-r from-fuchsia-500 via-indigo-500 to-cyan-400 shadow-[0_0_25px_rgba(99,102,241,0.55)] hover:shadow-[0_0_40px_rgba(217,70,239,0.75)] transition-all duration-300 hover:scale-105"
+                   dir="ltr" aria-label="Développé par MDA - WhatsApp">
+                    <i class="fa-solid fa-code text-white/90"></i>
+                    <span>Développé par</span>
+                    <span class="font-black text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]">MDA</span>
+                    <i class="fa-brands fa-whatsapp text-white text-base"></i>
+                </a>
+            </div>
+            <style>
+                .mda-credit::before{content:"";position:absolute;inset:-2px;border-radius:9999px;background:linear-gradient(90deg,#f0abfc,#818cf8,#22d3ee,#f0abfc);background-size:300% 100%;filter:blur(10px);opacity:.55;z-index:-1;animation:mdaGlow 4s linear infinite;}
+                @keyframes mdaGlow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+            </style>
         </div>
     </footer>
 
